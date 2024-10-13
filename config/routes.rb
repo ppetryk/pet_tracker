@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   namespace :api do
-    resource :pets, only: [ :create, :update, :show ]
+    resources :pets, only: [ :create, :update, :show ] do
+      collection do
+        post :not_in_zone
+      end
+    end
   end
 end

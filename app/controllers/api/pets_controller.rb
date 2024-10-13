@@ -25,6 +25,11 @@ class Api::PetsController < ApplicationController
     render json: @record.attributes, status: :ok
   end
 
+  def not_in_zone
+    response, status = Api::PetsOutsideZoneCalculator.perform
+    render json: response, status: status
+  end
+
   protected
 
   def create_permitted_params
