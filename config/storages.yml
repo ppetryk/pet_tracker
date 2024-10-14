@@ -1,0 +1,8 @@
+development:
+  report_storage: redis
+
+test:
+  report_storage: redis
+
+production:
+  report_storage: redis

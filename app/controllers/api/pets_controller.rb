@@ -27,6 +27,11 @@ class Api::PetsController < ApplicationController
 
   def not_in_zone
     response, status = Api::PetsOutsideZoneCalculator.perform
+
+    if status == 200
+      Storages::Redis::ReportStorage.new("pets-outside-zone-count", timestamp: true).set(response)
+    end
+
     render json: response, status: status
   end
 
