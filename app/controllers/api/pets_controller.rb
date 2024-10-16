@@ -1,5 +1,6 @@
 class Api::PetsController < ApplicationController
   before_action :find_record, only: [ :update, :show ]
+  before_action :check_pet_type, only: [ :create ]
 
   def create
     record = Pet.create(create_permitted_params)
@@ -47,5 +48,11 @@ class Api::PetsController < ApplicationController
 
   def find_record
     @record = Pet.find(params[:id])
+  end
+
+  def check_pet_type
+    unless Pet::PET_TYPES.include? params[:pet_type]
+      render json: { errors: { pet_type: "Attribute not supported" } }, status: :bad_request
+    end
   end
 end

@@ -10,7 +10,7 @@ module Storages
         if configured_storage == "redis"
           Redis::ReportStorage.new(destination, options)
         else
-          raise "Unrecognized report storage"
+          raise StandardError, "Unrecognized report storage"
         end
     end
 
