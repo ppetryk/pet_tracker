@@ -9,7 +9,7 @@ describe 'Api Pets', type: :request do
     let(:owner_id) { 124 }
     let(:in_zone) { true }
 
-    let(:params) { { pet_type: pet_type, tracker_type: tracker_type, owner_id: owner_id, in_zone: in_zone } }
+    let(:params) { { pet: { pet_type: pet_type, tracker_type: tracker_type, owner_id: owner_id, in_zone: in_zone } } }
     let(:record) { Pet.find(hash_response['id']) }
 
     it 'creates object' do
@@ -38,7 +38,7 @@ describe 'Api Pets', type: :request do
     let(:dog) { create(:dog) }
     let(:in_zone) { false }
 
-    let(:params) { { in_zone: in_zone } }
+    let(:params) { { pet: { in_zone: in_zone } } }
 
     it 'updates object' do
       put "/api/pets/#{dog.id}", params: params

@@ -3,7 +3,7 @@ class Api::PetsController < ApplicationController
   before_action :check_pet_type, only: [ :create ]
 
   def create
-    record = Pet.create(create_permitted_params)
+    record = Pet.create(permitted_params)
 
     if record.valid?
       render json: record.attributes, status: :created
@@ -13,7 +13,7 @@ class Api::PetsController < ApplicationController
   end
 
   def update
-    success = @record.update(update_permitted_params)
+    success = @record.update(permitted_params)
 
     if success
       render json: @record.attributes, status: :ok
@@ -38,12 +38,8 @@ class Api::PetsController < ApplicationController
 
   protected
 
-  def create_permitted_params
-    params.permit(:pet_type, :tracker_type, :owner_id, :in_zone, :lost_tracker)
-  end
-
-  def update_permitted_params
-    params.permit(:tracker_type, :owner_id, :in_zone, :lost_tracker)
+  def permitted_params
+    params.require(:pet).permit(:pet_type, :tracker_type, :owner_id, :in_zone, :lost_tracker)
   end
 
   def find_record
@@ -51,7 +47,7 @@ class Api::PetsController < ApplicationController
   end
 
   def check_pet_type
-    unless Pet::PET_TYPES.include? params[:pet_type]
+    unless Pet::PET_TYPES.include? permitted_params[:pet_type]
       render json: { errors: { pet_type: "Attribute not supported" } }, status: :bad_request
     end
   end
