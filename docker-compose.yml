@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: development.Dockerfile
+    volumes:
+      - .:/usr/src/pet_tracker
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+      - redis
+    environment:
+      REDIS_URL: redis://redis:6379/
+  db:
+    image: mysql:8.0
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: adminadmin
+  redis:
+    image: redis:6.2
+    volumes:
+      - redis_volume:/data
+volumes:
+  mysql_volume:
+  redis_volume:

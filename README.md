@@ -4,14 +4,14 @@ This application is intented to gather data from the pet trackers and generate r
 
 To make the application running on the local machine, please do the following:
 
-1. Make sure that Ruby, MySQL and Redis on your local machine. Sorry, the application is not dockerized yet
+1. Make sure that Docker is installed on your local machine
 1. Clone this repo
-1. Run `bundle install` to install all dependencies in the source folder
-1. Set up the MySQL database with the command: `bundle exec rake db:create db:migrate`
+1. Run `docker compose up` to build images and run the server
+1. In the separate terminal window, please set up the MySQL database executing the command: `docker compose exec app bundle exec rake db:create db:migrate`
 
 ## Usage
 
-You can run the application with `rails s`. Please find the request examples you can execute below.
+You can run the application with `docker compose up`. Please find the request examples you can execute below.
 
 To create a new pet:
 
@@ -36,6 +36,8 @@ To receive the pets count outside of the power saving zone:
 curl -X POST http://localhost:3000/api/pets/not_in_zone
 ```
 
-The application code is covered with the unit tests and request tests on RSpec. To run all test suite, please use `rspec` command. If you want to run either unit tests or request tests only, you can execute `rspec spec/models` or `rspec spec/requests` respectively.
+You can stop running the appication with `docker compose down`
+
+The application code is covered with the unit tests and request tests on RSpec. To run all test suite, please use `docker compose exec app bundle exec rspec` command. If you want to run either unit tests or request tests only, you can execute `docker compose exec app bundle exec rspec spec/models` or `docker compose exec app bundle exec rspec spec/requests` respectively.
 
 To conclude, the steps are pretty simple to run the application and tests.
